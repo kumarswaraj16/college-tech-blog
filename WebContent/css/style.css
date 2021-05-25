@@ -1,0 +1,14 @@
+@charset "UTF-8";
+
+.primary-background{
+	background:#2196f3!important;
+}
+
+.grad{
+  background-image: linear-gradient(to right, rgba(0,0,0,1), rgba(0,0,0,1));
+}
+
+#propic{
+	border-radius: 50%;
+	max-width: 150px;
+}
