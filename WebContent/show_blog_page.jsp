@@ -86,6 +86,14 @@ if(user==null){
     #post-img{
        height: 300px;
     }
+    
+    .navimg{
+      object-fit: cover;
+      border-radius: 50%;
+      width: 30px;
+      height: 30px;
+   
+   }
 
 </style>
 
@@ -93,7 +101,7 @@ if(user==null){
 <body>
 
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-		<a class="navbar-brand" href="#"><span class="fa fa-bank">&nbsp;&nbsp;</span>CTAE</a>
+		<a class="navbar-brand" href="https://www.ctae.ac.in/"><span class="fa fa-bank">&nbsp;&nbsp;</span>CTAE</a>
 		<button class="navbar-toggler" type="button" data-toggle="collapse"
 			data-target="#navbarSupportedContent"
 			aria-controls="navbarSupportedContent" aria-expanded="false"
@@ -113,13 +121,13 @@ if(user==null){
       </li>		
 			</ul>
 			<ul class="navbar-nav mr-right">
-				<li class="nav-item"><a class="nav-link text-white"
-					href="#!" data-toggle="modal" data-target="#profile-modal"><span class="fa fa-user-circle">&nbsp;&nbsp;</span><%= user.getName() %></a>
-				</li>
+				<li class="nav-item">
+	           <a class="nav-link text-white" href="profile.jsp"><span><img class="navimg" src="pics/<%= user.getProfile() %>"></span>&nbsp;<%= user.getName() %></a>
+	        </li>
 			</ul>
 			<ul class="navbar-nav mr-right">
 				<li class="nav-item">
-				<a href="LogoutServlet" class="nav-link text-white"><span class="fa fa-user-plus">&nbsp;&nbsp;</span>Logout</a>
+				<a href="LogoutServlet" class="nav-link text-white"><span class="fa fa-power-off">&nbsp;&nbsp;</span>Logout</a>
 				</li>
 			</ul>
 		</div>
@@ -139,8 +147,9 @@ if(user==null){
 	              
 	              <div class="card-body">
 	                  
-	                  <img id="post-img" class="card-img-top" src="blog_pics/<%= post.getpPic() %>" alt="Image is not there!">
-	              
+	                  <% if(post.getpPic().length()>0){ %>
+	                       <img id="post-img" class="card-img-top" src="blog_pics/<%= post.getpPic() %>" alt="Image is not there!">
+	                  <% } %>     
 	                  <div class="my-2">
 	                       <div class="float-left">
 	                       <%
@@ -148,7 +157,7 @@ if(user==null){
 	                            User u = ud.getUserByUserId(post.getUserId());
 	                       
 	                       %>
-	                            <p class="post-user-info"><a class="text-decoration-none" href="#!"><span class="author">author:</span><%= u.getName() %></a></p>
+	                            <p class="post-user-info"><a class="text-decoration-none" href="#!" data-toggle="modal" data-target="#author-modal"><span class="author">author:</span><%= u.getName() %></a></p>
 	                       </div>
 	                       
 	                       <div class="float-right">
@@ -173,11 +182,16 @@ if(user==null){
 						<%
 						
 						LikeDao ldao = new LikeDao(ConnectionProvider.getConnection());
-						
+						boolean flag = ldao.isLikedByUser(post_id, user.getId());
+						if(flag){
 						%>
-							<button onclick="doLike(<%= post_id %>,<%= user.getId() %>)" class="mx-4 btn btn-sm btn-outline-dark text-white grad"><i
-								class="like-btn fa fa-thumbs-o-up">&nbsp;<span class="like-counter"><%= ldao.countLikeOnPost(post_id) %></span></i></button>
-							<button class="btn btn-sm btn-outline-dark text-white grad">
+						<button onclick="doLike(<%= post_id %>,<%= user.getId() %>)" class="mx-4 btn btn-lg btn-outline-dark text-white grad">
+							<i id="icon-p" class="fa fa-thumbs-up">&nbsp;<span class="like-counter"><%= ldao.countLikeOnPost(post_id) %></span></i></button>
+						<% }else{ %>
+							<button onclick="doLike(<%= post_id %>,<%= user.getId() %>)" class="mx-4 btn btn-lg btn-outline-dark text-white grad">
+							<i id="icon-p" class="fa fa-thumbs-o-up">&nbsp;<span class="like-counter"><%= ldao.countLikeOnPost(post_id) %></span></i></button>
+						<% } %>	
+							<button class="btn btn-lg btn-outline-dark text-white grad">
 							<i class="fa fa-commenting-o">&nbsp;<span>5</span></i></button>
 						</div>
 					</div>
@@ -192,6 +206,59 @@ if(user==null){
 	        </div>
 	    </div>
 	</div>
+	
+	<!-- start of author's details -->
+
+	<div class="modal fade" id="author-modal" tabindex="-1"
+		aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header grad text-white">
+					<h5 class="modal-title" id="exampleModalLabel">Author's Details</h5>
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<div class="text-center">
+						<img id="propic" src="pics/<%=u.getProfile()%>"
+							class="img-fluid rounded-circle"
+							style="border-radius: 2rem; max-width: 200px; max-height: 100px;">
+						<h5 class="modal-title mt-3" id="exampleModalLabel"><%=u.getName()%></h5>
+
+						<div id="author-profile-details">
+							<table class="table">
+								<tbody>
+									<tr>
+										<th scope="row">ID:</th>
+										<td><%=u.getId()%></td>
+									</tr>
+									<tr>
+										<th scope="row">Email:</th>
+										<td><%=u.getEmail()%></td>
+									</tr>
+									<tr>
+										<th scope="row">Gender:</th>
+										<td><%=u.getGender()%></td>
+									</tr>
+									<tr>
+										<th scope="row">About:</th>
+										<td><%=u.getAbout()%></td>
+									</tr>
+									<tr>
+										<th scope="row"><span class="text-nowrap">Joined On:</span></th>
+										<td><%=DateFormat.getDateTimeInstance().format(u.getDateTime())%></td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- End of author's details -->
 	
 	<!-- End of Main Content of Body -->
 	
@@ -234,8 +301,8 @@ if(user==null){
 										<td><%=user.getAbout()%></td>
 									</tr>
 									<tr>
-										<th scope="row">Joined On:</th>
-										<td><%=user.getDateTime().toString()%></td>
+										<th scope="row"><span class="text-nowrap">Joined On:</span></th>
+										<td><%=DateFormat.getDateTimeInstance().format(user.getDateTime())%></td>
 									</tr>
 								</tbody>
 							</table>
@@ -377,8 +444,8 @@ if(user==null){
 	    	 $('#edit-profile-btn').click(function(){
 	    		 /* alert("btn clicked"); */
 	    		 if(editStatus==false){
+	    			 $('#profile-edit').show();
 	    			 $('#profile-details').hide();
-		    		 $('#profile-edit').show();
 		    		 editStatus = true;
 		    		 $(this).text("Back");
 	    		 }else{

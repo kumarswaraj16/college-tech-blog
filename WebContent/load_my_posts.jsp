@@ -1,3 +1,5 @@
+
+<%@page import="com.tech.blog.entities.User"%>
 <%@page import="java.sql.Connection"%>
 <%@page import="com.tech.blog.dao.LikeDao"%>
 <%@page import="com.tech.blog.entities.Post"%>
@@ -9,14 +11,16 @@
 
 <%
 
+    User user = (User) session.getAttribute("currentUser");
+
     PostDao postDao = new PostDao(ConnectionProvider.getConnection());
     
     int cid = Integer.parseInt(request.getParameter("cid"));
     ArrayList<Post> post = null;
     if(cid==0){
-    	post = postDao.getAllPosts();
+    	post = postDao.getAllPostByUserId(user.getId());
     }else{
-    	post = postDao.getAllPostsByCatId(cid);
+    	post = postDao.getUserPostsByCatId(user.getId(), cid);
     }
     
     if(post.size()==0){
@@ -75,13 +79,6 @@
 %>
 
 </div>
-
-
-
-
-
-
-
 
 <%-- <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>

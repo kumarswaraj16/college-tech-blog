@@ -6,11 +6,22 @@
 <head>
 <meta charset="UTF-8">
 <title>Navbar</title>
+<style>
+   
+   .navimg{
+      object-fit: cover;
+      border-radius: 50%;
+      width: 30px;
+      height: 30px;
+   
+   }
+
+</style>
 </head>
 <body>
 
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-  <a class="navbar-brand" href="https://www.ctae.ac.in/"><span class="fa fa-bank">&nbsp;&nbsp;</span>CTAE</a>
+  <a class="navbar-brand my-n-1" href="https://www.ctae.ac.in/"><span class="fa fa-bank">&nbsp;&nbsp;</span>CTAE</a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
@@ -56,7 +67,7 @@
         </div>
       </li>
       <li class="nav-item">
-        <a class="nav-link text-white" href="#"><span class="fa fa-address-book">&nbsp;&nbsp;</span>Contact Us</a>
+        <a class="nav-link text-white" href="contact.jsp"><span class="fa fa-address-book">&nbsp;&nbsp;</span>Contact Us</a>
       </li>
       <%
          if(user==null){
@@ -69,7 +80,7 @@
       </li>
       <% }else{ %>
 	        <li class="nav-item">
-	           <a class="nav-link text-white" href="profile.jsp"><span class="fa fa-user-circle">&nbsp;&nbsp;</span>My Profile</a>
+	           <a class="nav-link text-white" href="profile.jsp"><span><img class="navimg" src="pics/<%= user.getProfile() %>"></span>&nbsp;My Profile</a>
 	        </li>
       <% } %>
       <!-- <li class="nav-item">

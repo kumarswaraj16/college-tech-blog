@@ -45,7 +45,7 @@
 	
 	<div class="container">
 	    <div class="text-center">
-	        <div class="mb-4 badge badge-dark grad"><h3 class="py-2 px-2">Trending Posts</h3></div>
+	        <div class="mb-4 badge badge-dark grad"><h3 class="py-2 px-2">Trending Posts &nbsp; <img src="images/trending.png" style="width:40px;height:40px;"></h3></div>
 	    </div>
 	    <div class="row mb-sm-2">
 	        <%
@@ -58,15 +58,25 @@
 	        %>
 	        <div class="col-md-4">
 	              <div class="card h-100">
-	                <img class="card-img-top" src="blog_pics/<%= post.getpPic() %>" style="height:200px;" alt="Image is not there!">
+	                <% if(post.getpPic().length()>0){ %>
+	                       <img id="post-img" class="card-img-top" src="blog_pics/<%= post.getpPic() %>" alt="Image is not there!">
+	                  <% } %>
 					<div class="card-body d-flex flex-column">
 						<h5 class="card-title"><%= post.getpTitle() %></h5>
 						<p class="card-text"><%= post.getpContent().substring(0, 50) %>...</p>
-						<a href="#" class="btn btn-block grad text-white align-self-end" style="margin-top: auto;">Read More</a>
+						<%
+						    User u = (User)session.getAttribute("currentUser");
+						    if(u==null){
+						%> 
+						       <a href="login_page.jsp" class="btn btn-block grad text-white align-self-end" style="margin-top: auto;">Read More</a>
+						<%
+						    }else {
+						%>
+						       <a href="show_blog_page.jsp?post_id=<%= post.getPid() %>" class="btn btn-block grad text-white align-self-end" style="margin-top: auto;">Read More</a>
+						 <%} %>      
 					</div>
 				</div>
 			</div>
-			
 	        
 	        <%
 	        if(count==3){

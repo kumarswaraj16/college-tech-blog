@@ -130,7 +130,7 @@ public class PostDao {
 				int userId = rs.getInt("userid");
 				Timestamp pDate = rs.getTimestamp("pdate");
 
-				post = new Post(pTitle, pContent, pCode, pPic, catId, pDate, userId);
+				post = new Post(pid, pTitle, pContent, pCode, pPic, catId, pDate, userId);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -157,6 +157,60 @@ public class PostDao {
 		}
 
 		return recentPosts;
+	}
+
+	public ArrayList<Post> getAllPostByUserId(int userId) {
+		ArrayList<Post> userPosts = new ArrayList<>();
+
+		String query = "select * from posts where userid=? order by pdate desc";
+
+		try {
+			PreparedStatement stmt = this.con.prepareStatement(query);
+			stmt.setInt(1, userId);
+			ResultSet rs = stmt.executeQuery();
+			while (rs.next()) {
+				int postId = rs.getInt("pid");
+				String pTitle = rs.getString("ptitle");
+				String pContent = rs.getString("pcontent");
+				String pCode = rs.getString("pcode");
+				String pPic = rs.getString("ppic");
+				int catId = rs.getInt("catid");
+				Timestamp pDate = rs.getTimestamp("pdate");
+				Post post = new Post(postId, pTitle, pContent, pCode, pPic, catId, pDate, userId);
+				userPosts.add(post);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return userPosts;
+	}
+
+	public ArrayList<Post> getUserPostsByCatId(int userId, int catId) {
+		ArrayList<Post> userPostsByCatId = new ArrayList<>();
+
+		String query = "select * from posts where userid=? and catid=? order by pdate desc";
+
+		try {
+			PreparedStatement stmt = this.con.prepareStatement(query);
+			stmt.setInt(1, userId);
+			stmt.setInt(2, catId);
+			ResultSet rs = stmt.executeQuery();
+			while (rs.next()) {
+				int postId = rs.getInt("pid");
+				String pTitle = rs.getString("ptitle");
+				String pContent = rs.getString("pcontent");
+				String pCode = rs.getString("pcode");
+				String pPic = rs.getString("ppic");
+				Timestamp pDate = rs.getTimestamp("pdate");
+				Post post = new Post(postId, pTitle, pContent, pCode, pPic, catId, pDate, userId);
+				userPostsByCatId.add(post);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return userPostsByCatId;
 	}
 
 }

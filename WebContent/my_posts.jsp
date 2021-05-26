@@ -1,47 +1,38 @@
-
 <%@page import="java.text.DateFormat"%>
+<%@page import="com.tech.blog.entities.User"%>
 <%@page import="com.tech.blog.entities.Category"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="com.tech.blog.helpers.ConnectionProvider"%>
 <%@page import="com.tech.blog.dao.PostDao"%>
-<%@page import="com.tech.blog.entities.Message"%>
-<%@page import="com.tech.blog.entities.User"%>
 <%@page errorPage="error_page.jsp" %>
 
 <%
 
-User user = (User)session.getAttribute("currentUser");
+       User user = (User)session.getAttribute("currentUser");
 
-if(user==null){
-	response.sendRedirect("login_page.jsp");
-}
+		if(user==null){
+			response.sendRedirect("login_page.jsp");
+		}
 
 %>
 
+
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Your Profile</title>
+<title>My Posts</title>
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">	
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <link rel="stylesheet" href="css/style.css">
 
 <style>
-
     body{
        background: url("images/prog1.jpg");
        background-size: cover;
-       background-attachment:fixed;
-    }
-    
-    .sidebar{
-       position: fixed;
-       top:100px;
-       width: 300px;
+       background-attachment: fixed;
     }
     
     .navimg{
@@ -51,12 +42,11 @@ if(user==null){
       height: 30px;
    
    }
-    
 
 </style>
 </head>
 <body>
-    <!-- <navbar> -->
+   <!-- <navbar> -->
 	<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
 		<a class="navbar-brand" href="https://www.ctae.ac.in/"><span class="fa fa-bank">&nbsp;&nbsp;</span>CTAE</a>
 		<button class="navbar-toggler" type="button" data-toggle="collapse"
@@ -75,10 +65,10 @@ if(user==null){
 						class="fa fa-address-book">&nbsp;&nbsp;</span>Contact Us</a></li>
 				<li class="nav-item">
         <a class="nav-link text-white" href="#" data-toggle="modal" data-target="#add-post-modal"><span class="fa fa-paint-brush">&nbsp;&nbsp;</span>Write Blog</a>
-      </li>		
+      </li>			
       <li class="nav-item">
-        <a class="nav-link text-white" href="my_posts.jsp"><span class="fa fa-file-code-o">&nbsp;&nbsp;</span>My Posts</a>
-      </li>		
+	           <a class="nav-link text-white" href="profile.jsp"><span class="fa fa-mortar-board">&nbsp;&nbsp;</span>My Profile</a>
+	  </li>
 			</ul>
 			<ul class="navbar-nav mr-right">
 				<li class="nav-item">
@@ -94,19 +84,7 @@ if(user==null){
 	</nav>
 	<!-- <navbar> -->
 
-	<%
-	Message m = (Message) session.getAttribute("msg");
-	if (m != null) {
-	%>
-	<div class="alert <%=m.getCssClass()%> mb-0 text-center" role="alert">
-		<%=m.getContent()%>
-	</div>
-	<%
-	session.removeAttribute("msg");
-	}
-	%>
-	
-	<!-- start of main body of the page -->
+   <!-- start of main body of the page -->
 
 	<main>
 		<div class="container">
@@ -118,7 +96,7 @@ if(user==null){
 							aria-current="true"> All Posts </a> 
 						<%
 						   PostDao dao = new PostDao(ConnectionProvider.getConnection());
-						   ArrayList<Category> list1 = dao.getAllCategories();
+						   ArrayList<Category>   list1 = dao.getAllCategories();
 						   for(Category c:list1){   
 					    %>
 					         <a href="#" onclick="getPosts(<%= c.getCid() %>,this)" class="c-link list-group-item list-group-item-action text-dark"
@@ -148,10 +126,8 @@ if(user==null){
 
 	</main>
 
-
-
 	<!-- end of main body of the page -->
-
+	
 	<!-- Profile Modal -->
 
 	<!-- Modal -->
@@ -253,7 +229,6 @@ if(user==null){
 
 	<!-- End of Profile Modal -->
 	
-	
 	<!-- Start Post Modal -->
 
 	<div class="modal fade" id="add-post-modal" tabindex="-1"
@@ -313,8 +288,9 @@ if(user==null){
 	</div>
 
 	<!-- End Post Modal -->
-	
-	<script src="https://code.jquery.com/jquery-3.6.0.min.js"
+   
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"
 		integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
 		crossorigin="anonymous"></script>
 	<script
@@ -327,6 +303,7 @@ if(user==null){
 		crossorigin="anonymous"></script>
 	<script src="js/myjs.js" type="text/javascript"></script>
 	<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>	
+	
 	<script>
 	
 	     $(document).ready(function(){
@@ -391,8 +368,6 @@ if(user==null){
 	
 	</script>
 	
-	<!-- Loding posts using ajax -->
-	
 	<script>
 	
 	    function getPosts(catId,ref){
@@ -402,7 +377,7 @@ if(user==null){
 	    	$('.c-link').removeClass("active grad");
 	    	
 	    	$.ajax({
-	    		url: "load_posts.jsp",
+	    		url: "load_my_posts.jsp",
 	    		data: {cid: catId},
 	    		success: function(data, textStatus, jqXHR){
 	    			console.log(data);
@@ -423,7 +398,8 @@ if(user==null){
 	
 	
 	</script>
-		
 	
+	
+
 </body>
 </html>
