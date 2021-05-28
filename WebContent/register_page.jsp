@@ -108,10 +108,11 @@
 	    				 $('#submit-btn').show();
 	    				 $('#loader').hide();
 	    				 if(data.trim()=='Success'){
-		    				 swal("Registered Successfully, We are Redirecting you to Login Page!")
-		    				 .then((value) => {
-		    				   window.location = "login_page.jsp";
-		    				 });
+		    				 swal("Registered Successfully!", "We are Redirecting you to Login Page!", "success", {
+	    						  button: "Aww yiss!",
+	    					 }).then((value) => {
+				        		 window.location = "login_page.jsp";
+				        	 });
 	    				 }else{
 	    					 swal(data);
 	    				 }

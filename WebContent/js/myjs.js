@@ -35,3 +35,35 @@ function doLike(pid,uid){
     });
 
 }
+
+function doDelete(pid){
+
+   const d = {
+      pid: pid,
+      operation: 'delete'
+   }
+   
+   $.ajax({
+      
+      url: "DeletePostServlet",
+      type: 'POST',
+      data: d,
+      success: function(data, textStatus, jqXHR){
+         if(data.trim()=='true'){
+             swal("Okay!", "You Deleted Successfully!", "success", {
+	    			 button: "Post Soon!",
+	   		 });
+         }
+      },
+      error: function(jqXHR, textStatus, errorThrown){
+           swal("Error!", "Something went wrong, try again..", "error", {
+   				button: "Ohh Noo!",
+   		   });
+      },
+      processData: false,
+	  contentType: false
+   })
+
+}
+
+

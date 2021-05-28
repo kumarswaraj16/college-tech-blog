@@ -71,7 +71,7 @@ if(user==null){
 				<li class="nav-item active"><a class="nav-link"
 					href="index.jsp"><span class="fa fa-desktop">&nbsp;&nbsp;</span>Programming
 						Club <span class="sr-only">(current)</span></a></li>
-				<li class="nav-item"><a class="nav-link text-white" href="#"><span
+				<li class="nav-item"><a class="nav-link text-white" href="contact.jsp"><span
 						class="fa fa-address-book">&nbsp;&nbsp;</span>Contact Us</a></li>
 				<li class="nav-item">
         <a class="nav-link text-white" href="#" data-toggle="modal" data-target="#add-post-modal"><span class="fa fa-paint-brush">&nbsp;&nbsp;</span>Write Blog</a>
@@ -80,11 +80,19 @@ if(user==null){
         <a class="nav-link text-white" href="my_posts.jsp"><span class="fa fa-file-code-o">&nbsp;&nbsp;</span>My Posts</a>
       </li>		
 			</ul>
+			<% if(user.getName().equals("Swaraj Kumar")){ %>
 			<ul class="navbar-nav mr-right">
 				<li class="nav-item">
-	           <a class="nav-link text-white" href="profile.jsp"><span><img class="navimg" src="pics/<%= user.getProfile() %>"></span>&nbsp;<%= user.getName() %></a>
+	           <a class="nav-link text-white" href="#!" data-toggle="modal" data-target="#profile-modal"><span><img class="navimg" src="pics/<%= user.getProfile() %>"></span>&nbsp;<%= user.getName() %><img src="images/check.png" style="width:20px;height:20px;"></a>
 	        </li>
 			</ul>
+			<% }else{ %>
+			<ul class="navbar-nav mr-right">
+				<li class="nav-item">
+	           <a class="nav-link text-white" href="#!" data-toggle="modal" data-target="#profile-modal"><span><img class="navimg" src="pics/<%= user.getProfile() %>"></span>&nbsp;<%= user.getName() %></a>
+	        </li>
+			</ul>   
+			<% } %>
 			<ul class="navbar-nav mr-right">
 				<li class="nav-item">
 				<a href="LogoutServlet" class="nav-link text-white"><span class="fa fa-power-off">&nbsp;&nbsp;</span>Logout</a>
@@ -131,8 +139,8 @@ if(user==null){
 				</div>
 				<div class="col-md-8">
 				   <div class="container text-center" id="loader">
-				         <i class="fa fa-refresh fa-spin fa-3x"></i>
-				         <h3 class="mt-2">Loading...</h3>
+				         <i class="fa fa-refresh fa-spin fa-3x text-white"></i>
+				         <h3 class="mt-2 text-white">Loading...</h3>
 				   </div>
 				   
 				   <div class="container-fluid" id="post-container">
@@ -169,7 +177,11 @@ if(user==null){
 				<div class="modal-body">
 				     <div class="text-center">
 				         <img id="propic" src="pics/<%= user.getProfile() %>" class="img-fluid rounded-circle" style="border-radius:2rem;max-width:200px;max-height:100px;">
-				         <h5 class="modal-title mt-3" id="exampleModalLabel"><%= user.getName() %></h5>
+				         <% if(user.getName().equals("Swaraj Kumar")){ %>
+			<h5 class="modal-title mt-3" id="exampleModalLabel"><%= user.getName() %><img src="images/check.png" style="width:20px;height:20px;"></h5>
+			<% }else{ %>
+			<h5 class="modal-title mt-3" id="exampleModalLabel"><%= user.getName() %></h5>  
+			<% } %>
 
 						<div id="profile-details">
 							<table class="table">
@@ -370,7 +382,9 @@ if(user==null){
 	    				 if(data.trim()=='Done'){
 	    					 swal("Good job!", "You Posted Successfully!", "success", {
 	    						  button: "Aww yiss!",
-	    					 });
+	    					 }).then((value) => {
+				        		 window.location = "my_posts.jsp";
+				        	 });
 	    				 }else{
 	    					 swal("Error!", "Something went wrong, try again..", "error", {
 	    						  button: "Ohh Noo!",

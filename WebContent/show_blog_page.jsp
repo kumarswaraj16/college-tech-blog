@@ -94,6 +94,7 @@ if(user==null){
       height: 30px;
    
    }
+   
 
 </style>
 
@@ -114,17 +115,28 @@ if(user==null){
 				<li class="nav-item active"><a class="nav-link"
 					href="index.jsp"><span class="fa fa-desktop">&nbsp;&nbsp;</span>Programming
 						Club <span class="sr-only">(current)</span></a></li>
-				<li class="nav-item"><a class="nav-link text-white" href="#"><span
+				<li class="nav-item"><a class="nav-link text-white" href="contact.jsp"><span
 						class="fa fa-address-book">&nbsp;&nbsp;</span>Contact Us</a></li>
 				<li class="nav-item">
         <a class="nav-link text-white" href="#" data-toggle="modal" data-target="#add-post-modal"><span class="fa fa-paint-brush">&nbsp;&nbsp;</span>Write Blog</a>
       </li>		
+      <li class="nav-item">
+        <a class="nav-link text-white" href="my_posts.jsp"><span class="fa fa-file-code-o">&nbsp;&nbsp;</span>My Posts</a>
+      </li>
 			</ul>
+			<% if(user.getName().equals("Swaraj Kumar")){ %>
+			<ul class="navbar-nav mr-right">
+				<li class="nav-item">
+	           <a class="nav-link text-white" href="profile.jsp" data-toggle="modal" data-target="#profile-modal"><span><img class="navimg" src="pics/<%= user.getProfile() %>"></span>&nbsp;<%= user.getName() %><img src="images/check.png" style="width:20px;height:20px;"></a>
+	        </li>
+			</ul>
+			<% }else{ %>
 			<ul class="navbar-nav mr-right">
 				<li class="nav-item">
 	           <a class="nav-link text-white" href="profile.jsp"><span><img class="navimg" src="pics/<%= user.getProfile() %>"></span>&nbsp;<%= user.getName() %></a>
 	        </li>
-			</ul>
+			</ul>   
+			<% } %>
 			<ul class="navbar-nav mr-right">
 				<li class="nav-item">
 				<a href="LogoutServlet" class="nav-link text-white"><span class="fa fa-power-off">&nbsp;&nbsp;</span>Logout</a>
@@ -178,6 +190,11 @@ if(user==null){
 	              </div>
 
 					<div class="card-footer grad">
+					    <% if(user.getId() == post.getUserId()){ %>
+						    <div class="float-left">
+						        <button id="delete-btn" class="btn btn-lg btn-danger bg-danger text-white">Delete Post</button>
+						    </div>
+						<% } %>   
 						<div class="float-right">
 						<%
 						
@@ -191,17 +208,27 @@ if(user==null){
 							<button onclick="doLike(<%= post_id %>,<%= user.getId() %>)" class="mx-4 btn btn-lg btn-outline-dark text-white grad">
 							<i id="icon-p" class="fa fa-thumbs-o-up">&nbsp;<span class="like-counter"><%= ldao.countLikeOnPost(post_id) %></span></i></button>
 						<% } %>	
-							<button class="btn btn-lg btn-outline-dark text-white grad">
-							<i class="fa fa-commenting-o">&nbsp;<span>5</span></i></button>
+							<a href="http://localhost:8080/CollegeTechBlog/show_blog_page.jsp?post_id=<%= post_id %>#disqus_thread" data-disqus-identifier="<%= post_id %>" class="btn btn-lg btn-dark text-white grad"></a>
 						</div>
 					</div>
 					
 					<!-- start of designing comment section -->
-					<!-- <div class="card-footer bg-white">
+					<div class="card-footer bg-white">
 					
-					
-					
-					</div> -->
+					    <div id="disqus_thread"></div>
+							<script>
+							    var disqus_config = function () {
+							    this.page.url = "http://localhost:8080/CollegeTechBlog/show_blog_page.jsp?post_id=<%= post_id %>";  
+							    this.page.identifier = <%= post_id %>;
+							    };
+							    (function() {
+							    var d = document, s = d.createElement('script');
+							    s.src = 'https://ctaetechblog.disqus.com/embed.js';
+							    s.setAttribute('data-timestamp', +new Date());
+							    (d.head || d.body).appendChild(s);
+							    })();
+							</script>
+					</div>
 				</div>
 	        </div>
 	    </div>
@@ -225,7 +252,11 @@ if(user==null){
 						<img id="propic" src="pics/<%=u.getProfile()%>"
 							class="img-fluid rounded-circle"
 							style="border-radius: 2rem; max-width: 200px; max-height: 100px;">
-						<h5 class="modal-title mt-3" id="exampleModalLabel"><%=u.getName()%></h5>
+						<% if(u.getName().equals("Swaraj Kumar")){ %>
+			<h5 class="modal-title mt-3" id="exampleModalLabel"><%= u.getName() %><img src="images/check.png" style="width:20px;height:20px;"></h5>
+			<% }else{ %>
+			<h5 class="modal-title mt-3" id="exampleModalLabel"><%= u.getName() %></h5>  
+			<% } %>
 
 						<div id="author-profile-details">
 							<table class="table">
@@ -280,7 +311,6 @@ if(user==null){
 				     <div class="text-center">
 				         <img id="propic" src="pics/<%= user.getProfile() %>" class="img-fluid rounded-circle" style="border-radius:2rem;max-width:200px;max-height:100px;">
 				         <h5 class="modal-title mt-3" id="exampleModalLabel"><%= user.getName() %></h5>
-
 						<div id="profile-details">
 							<table class="table">
 								<tbody>
@@ -456,8 +486,8 @@ if(user==null){
 	    		 }
 	    	 });
 	    	 
-	     });   
-	
+	     }); 
+	     
 	</script>
 	
 	<!-- Add post logic -->
@@ -480,7 +510,9 @@ if(user==null){
 	    				 if(data.trim()=='Done'){
 	    					 swal("Good job!", "You Posted Successfully!", "success", {
 	    						  button: "Aww yiss!",
-	    					 });
+	    					 }).then((value) => {
+				        		 window.location = "my_posts.jsp";
+				        	 });
 	    				 }else{
 	    					 swal("Error!", "Something went wrong, try again..", "error", {
 	    						  button: "Ohh Noo!",
@@ -498,8 +530,44 @@ if(user==null){
 	    	 });
 	      });
 	
+	</script>
+	
+	<script>
+	
+	$(document).ready(function(){
+           console.log("Delete Post!");
+		   $('#delete-btn').on('click',function(event){
+			   event.preventDefault();
+			   let data = {
+				  postId: <%= post_id %>,
+			      operation: "delete"
+			   };
+			   $.ajax({
+				      url: "DeletePostServlet",
+				      type: 'POST',
+				      data: data,
+				      success: function(data, textStatus, jqXHR){
+				         if(data.trim()=='true'){
+				        	 swal("Okay!", "Post Deleted Successfully!", "success", {
+	    						  button: "Post Soon!",
+	    					 }).then((value) => {
+				        		 window.location = "my_posts.jsp";
+				        	 });
+				         }
+				      },
+				      error: function(jqXHR, textStatus, errorThrown){
+				           swal("Error!", "Something went wrong, try again..", "error", {
+				   				button: "Ohh Noo!",
+				   		   });
+				      },
+			  });
+		   });
+		});
+
 	
 	</script>
+	
+	<script id="dsq-count-scr" src="//ctaetechblog.disqus.com/count.js" async></script>
 	
 </body>
 </html>

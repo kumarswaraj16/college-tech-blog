@@ -1,3 +1,4 @@
+<%@page import="com.sun.jdi.Value"%>
 <%@page import="com.tech.blog.entities.Post"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="com.tech.blog.dao.PostDao"%>
@@ -37,6 +38,7 @@
 	            <p>Here, We will discuss everything related to Programming and Technology</p>
 	            <a href="register_page.jsp" class="btn btn-md btn-outline-light m-1"><span class="fa fa-lightbulb-o"></span>&nbsp;Start Learning</a>
 	            <a href="login_page.jsp" class="btn btn-md btn-outline-light m-1"><span class="fa fa-paper-plane-o"></span>&nbsp;Login</a>
+	            <a href="#" class="btn btn-md btn-outline-light m-1"><span class="fa fa-camera"></span>&nbsp;Gallery</a>
 	        </div>
 	    </div>
 	</div>
@@ -59,11 +61,13 @@
 	        <div class="col-md-4">
 	              <div class="card h-100">
 	                <% if(post.getpPic().length()>0){ %>
-	                       <img id="post-img" class="card-img-top" src="blog_pics/<%= post.getpPic() %>" alt="Image is not there!">
+	                       <div class="embed-responsive embed-responsive-4by3">
+                               <img id="post-img" class="card-img-top embed-responsive-item" src="blog_pics/<%= post.getpPic() %>" alt="Image is not there!">
+                           </div>
 	                  <% } %>
 					<div class="card-body d-flex flex-column">
 						<h5 class="card-title"><%= post.getpTitle() %></h5>
-						<p class="card-text"><%= post.getpContent().substring(0, 50) %>...</p>
+						<p class="card-text"><%= post.getpContent().substring(0, 20) %>...</p>
 						<%
 						    User u = (User)session.getAttribute("currentUser");
 						    if(u==null){
@@ -104,6 +108,20 @@
 		integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
 		crossorigin="anonymous"></script>
 	<script src="js/myjs.js" type="text/javascript"></script>	
+	
+	<script>
+	
+	    $(document).ready(function(){
+	    	console.log("Ready to search!");
+	    	$('#search-btn').on('click',function(event){
+	    		event.preventDefault();
+	    		var val = document.getElementById("searchbar").value;
+	    		console.log(val);
+	    		window.location = "searched_posts.jsp?lookup_posts="+val;
+	    	});
+	    });
+	
+	</script>
 
 </body>
 </html>

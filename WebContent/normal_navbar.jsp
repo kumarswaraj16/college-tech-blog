@@ -66,7 +66,7 @@
           %>
         </div>
       </li>
-      <li class="nav-item">
+     <li class="nav-item">
         <a class="nav-link text-white" href="contact.jsp"><span class="fa fa-address-book">&nbsp;&nbsp;</span>Contact Us</a>
       </li>
       <%
@@ -79,17 +79,23 @@
         <a class="nav-link text-white" href="register_page.jsp"><span class="fa fa-user-plus">&nbsp;&nbsp;</span>SignUp</a>
       </li>
       <% }else{ %>
-	        <li class="nav-item">
-	           <a class="nav-link text-white" href="profile.jsp"><span><img class="navimg" src="pics/<%= user.getProfile() %>"></span>&nbsp;My Profile</a>
+	        <% if(user.getName().equals("Swaraj Kumar")){ %>
+				<li class="nav-item">
+	           <a class="nav-link text-white" href="profile.jsp"><span><img class="navimg" src="pics/<%= user.getProfile() %>"></span>&nbsp;<%= user.getName() %><img src="images/check.png" style="width:20px;height:20px;"></a>
 	        </li>
+			<% }else{ %>
+				<li class="nav-item">
+	           <a class="nav-link text-white" href="profile.jsp"><span><img class="navimg" src="pics/<%= user.getProfile() %>"></span>&nbsp;<%= user.getName() %></a>
+	        </li>
+			<% } %>
       <% } %>
       <!-- <li class="nav-item">
         <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
       </li> -->
     </ul>
-    <form class="form-inline my-2 my-lg-0">
-      <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-      <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+    <form action="searched_posts.jsp" method="post" class="form-inline my-2 my-lg-0">
+      <input id="searchbar" class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+      <button id="search-btn" class="btn btn-outline-dark grad text-white my-2 my-sm-0" type="submit">Search</button>
     </form>
   </div>
 </nav>

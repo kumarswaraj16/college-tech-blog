@@ -1,15 +1,5 @@
-<%@page import="com.tech.blog.entities.User"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-    
-<%
-    User user = (User)session.getAttribute("currentUser");
-    if(user==null){
-    	response.sendRedirect("knowus.jsp");
-    }
-
-%>    
-    
 <!DOCTYPE html>
 <html>
 <head>
@@ -76,11 +66,9 @@
    
 
 </style>
-
 </head>
-
 <body>
-     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+   <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
   <a class="navbar-brand my-n-1" href="https://www.ctae.ac.in/"><span class="fa fa-bank">&nbsp;&nbsp;</span>CTAE</a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
@@ -91,40 +79,19 @@
       <li class="nav-item active">
         <a class="nav-link" href="index.jsp"><span class="fa fa-desktop">&nbsp;&nbsp;</span>Programming Club <span class="sr-only">(current)</span></a>
       </li>
-      <%if(user!=null) {%>
       <li class="nav-item">
-        <a class="nav-link text-white" href="contact.jsp"><span class="fa fa-address-book">&nbsp;&nbsp;</span>Contact Us</a>
+        <a class="nav-link text-white" href="knowus.jsp"><span class="fa fa-address-book">&nbsp;&nbsp;</span>Contact Us</a>
       </li>
-      <%} %>
-      <%
-         if(user==null){
-      %>
       <li class="nav-item">
         <a class="nav-link text-white" href="login_page.jsp"><span class="fa fa-user-circle">&nbsp;&nbsp;</span>Login</a>
       </li>
       <li class="nav-item">
         <a class="nav-link text-white" href="register_page.jsp"><span class="fa fa-user-plus">&nbsp;&nbsp;</span>SignUp</a>
       </li>
-      <% }else{ %>
-	        <% if(user.getName().equals("Swaraj Kumar")){ %>
-				<li class="nav-item">
-	           <a class="nav-link text-white" href="profile.jsp" data-toggle="modal" data-target="#profile-modal"><span><img class="navimg" src="pics/<%= user.getProfile() %>"></span>&nbsp;<%= user.getName() %><img src="images/check.png" style="width:20px;height:20px;"></a>
-	        </li>
-			<% }else{ %>
-				<li class="nav-item">
-	           <a class="nav-link text-white" href="profile.jsp" data-toggle="modal" data-target="#profile-modal"><span><img class="navimg" src="pics/<%= user.getProfile() %>"></span>&nbsp;<%= user.getName() %></a>
-	        </li>
-			<% } %>
-      <% } %>
       <!-- <li class="nav-item">
         <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
       </li> -->
     </ul>
-			<ul class="navbar-nav mr-right">
-				<li class="nav-item"><a href="LogoutServlet"
-					class="nav-link text-white"><span class="fa fa-power-off">&nbsp;&nbsp;</span>Logout</a>
-				</li>
-			</ul>
 		</div>
 </nav>
       <div class="container">

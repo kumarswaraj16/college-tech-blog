@@ -8,7 +8,6 @@
 <div class="row">
 
 <%
-
     PostDao postDao = new PostDao(ConnectionProvider.getConnection());
     
     int cid = Integer.parseInt(request.getParameter("cid"));
@@ -41,7 +40,7 @@
               <div class="card-body">
                  <b><%= p.getpTitle() %></b>
                  <br>
-                 <p><%= p.getpContent().substring(0,50) %>...</p>
+                 <p><%= p.getpContent().substring(0,20) %>...</p>
                  <% 
                      if(p.getpCode().length() > 0){
                  %>
@@ -58,11 +57,11 @@
 				<div class="float-right">
 				  <%
 				     LikeDao ld = new LikeDao(ConnectionProvider.getConnection());
-				  %>>
+				  %>
 					<button class="btn btn-sm btn-outline-dark text-white grad"><i
 						class="fa fa-thumbs-o-up">&nbsp;<span><%= ld.countLikeOnPost(p.getPid()) %></span></i></button> 
-						<button class="btn btn-sm btn-outline-dark text-white grad"><i
-						class="fa fa-commenting-o">&nbsp;<span>5</span></i></button>
+						<a href="show_blog_page.jsp?post_id=<%= p.getPid() %>" class="btn btn-sm btn-outline-dark text-white grad"><i
+						class="fa fa-commenting-o">&nbsp;<span></span></i></a>
 				</div>
                   
                  
@@ -73,7 +72,6 @@
 <% 	
     }
 %>
-
 </div>
 
 

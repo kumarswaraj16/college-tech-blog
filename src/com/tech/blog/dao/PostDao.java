@@ -213,4 +213,38 @@ public class PostDao {
 		return userPostsByCatId;
 	}
 
+	public boolean deletePost(int pid) {
+		boolean flag = false;
+
+		String query = "delete from posts where pid=?";
+
+		try {
+			PreparedStatement stmt = this.con.prepareStatement(query);
+			stmt.setInt(1, pid);
+			stmt.executeUpdate();
+			flag = true;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return flag;
+	}
+
+	public ArrayList<Post> searchedPosts(String value) {
+		ArrayList<Post> list = new ArrayList<>();
+		String query = ("select * from posts where ptitle ilike '%" + value + "%'");
+		try {
+			PreparedStatement stmt = this.con.prepareStatement(query);
+			ResultSet rs = stmt.executeQuery();
+			while (rs.next()) {
+				int postId = rs.getInt("pid");
+				Post post = getPostByPostId(postId);
+				list.add(post);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return list;
+	}
+
 }

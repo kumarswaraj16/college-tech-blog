@@ -61,20 +61,25 @@
 				<li class="nav-item active"><a class="nav-link"
 					href="index.jsp"><span class="fa fa-desktop">&nbsp;&nbsp;</span>Programming
 						Club <span class="sr-only">(current)</span></a></li>
-				<li class="nav-item"><a class="nav-link text-white" href="#"><span
+				<li class="nav-item"><a class="nav-link text-white" href="contact.jsp"><span
 						class="fa fa-address-book">&nbsp;&nbsp;</span>Contact Us</a></li>
 				<li class="nav-item">
         <a class="nav-link text-white" href="#" data-toggle="modal" data-target="#add-post-modal"><span class="fa fa-paint-brush">&nbsp;&nbsp;</span>Write Blog</a>
       </li>			
-      <li class="nav-item">
-	           <a class="nav-link text-white" href="profile.jsp"><span class="fa fa-mortar-board">&nbsp;&nbsp;</span>My Profile</a>
-	  </li>
 			</ul>
+			<% if(user.getName().equals("Swaraj Kumar")){ %>
+			<ul class="navbar-nav mr-right">
+				<li class="nav-item">
+	           <a class="nav-link text-white" href="profile.jsp"><span><img class="navimg" src="pics/<%= user.getProfile() %>"></span>&nbsp;<%= user.getName() %><img src="images/check.png" style="width:20px;height:20px;"></a>
+	        </li>
+			</ul>
+			<% }else{ %>
 			<ul class="navbar-nav mr-right">
 				<li class="nav-item">
 	           <a class="nav-link text-white" href="profile.jsp"><span><img class="navimg" src="pics/<%= user.getProfile() %>"></span>&nbsp;<%= user.getName() %></a>
 	        </li>
-			</ul>
+			</ul>   
+			<% } %>
 			<ul class="navbar-nav mr-right">
 				<li class="nav-item">
 				<a href="LogoutServlet" class="nav-link text-white"><span class="fa fa-power-off">&nbsp;&nbsp;</span>Logout</a>
@@ -347,7 +352,9 @@
 	    				 if(data.trim()=='Done'){
 	    					 swal("Good job!", "You Posted Successfully!", "success", {
 	    						  button: "Aww yiss!",
-	    					 });
+	    					 }).then((value) => {
+				        		 window.location = "my_posts.jsp";
+				        	 });
 	    				 }else{
 	    					 swal("Error!", "Something went wrong, try again..", "error", {
 	    						  button: "Ohh Noo!",
