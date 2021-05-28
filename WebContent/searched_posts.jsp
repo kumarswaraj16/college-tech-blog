@@ -73,9 +73,15 @@
         <a class="nav-link text-white" href="register_page.jsp"><span class="fa fa-user-plus">&nbsp;&nbsp;</span>SignUp</a>
       </li>
       <% }else{ %>
-	        <li class="nav-item">
-	           <a class="nav-link text-white" href="profile.jsp"><span><img class="navimg" src="pics/<%= user.getProfile() %>"></span>&nbsp;My Profile</a>
+	        <% if(user.getName().equals("Swaraj Kumar")){ %>
+				<li class="nav-item">
+	           <a class="nav-link text-white" href="profile.jsp"><span><img class="navimg" src="pics/<%= user.getProfile() %>"></span>&nbsp;<%= user.getName() %><img src="images/check.png" style="width:20px;height:20px;"></a>
 	        </li>
+			<% }else{ %>
+				<li class="nav-item">
+	           <a class="nav-link text-white" href="profile.jsp"><span><img class="navimg" src="pics/<%= user.getProfile() %>"></span>&nbsp;<%= user.getName() %></a>
+	        </li> 
+			<% } %>
       <% } %>
       <!-- <li class="nav-item">
         <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>

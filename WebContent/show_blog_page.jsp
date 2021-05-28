@@ -127,7 +127,7 @@ if(user==null){
 			<% if(user.getName().equals("Swaraj Kumar")){ %>
 			<ul class="navbar-nav mr-right">
 				<li class="nav-item">
-	           <a class="nav-link text-white" href="profile.jsp" data-toggle="modal" data-target="#profile-modal"><span><img class="navimg" src="pics/<%= user.getProfile() %>"></span>&nbsp;<%= user.getName() %><img src="images/check.png" style="width:20px;height:20px;"></a>
+	           <a class="nav-link text-white" href="profile.jsp"><span><img class="navimg" src="pics/<%= user.getProfile() %>"></span>&nbsp;<%= user.getName() %><img src="images/check.png" style="width:20px;height:20px;"></a>
 	        </li>
 			</ul>
 			<% }else{ %>
@@ -249,15 +249,14 @@ if(user==null){
 				</div>
 				<div class="modal-body">
 					<div class="text-center">
-						<img id="propic" src="pics/<%=u.getProfile()%>"
+						<img id="propic" src="pics/<%= u.getProfile() %>"
 							class="img-fluid rounded-circle"
 							style="border-radius: 2rem; max-width: 200px; max-height: 100px;">
-						<% if(u.getName().equals("Swaraj Kumar")){ %>
+                        <% if(u.getName().equals("Swaraj Kumar")){ %>
 			<h5 class="modal-title mt-3" id="exampleModalLabel"><%= u.getName() %><img src="images/check.png" style="width:20px;height:20px;"></h5>
 			<% }else{ %>
 			<h5 class="modal-title mt-3" id="exampleModalLabel"><%= u.getName() %></h5>  
 			<% } %>
-
 						<div id="author-profile-details">
 							<table class="table">
 								<tbody>
@@ -271,7 +270,7 @@ if(user==null){
 									</tr>
 									<tr>
 										<th scope="row">Gender:</th>
-										<td><%=u.getGender()%></td>
+										<td><%=u.getGender() %></td>
 									</tr>
 									<tr>
 										<th scope="row">About:</th>
