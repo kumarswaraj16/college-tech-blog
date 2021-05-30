@@ -114,8 +114,8 @@
 				</div>
 				<div class="col-md-8">
 				   <div class="container text-center" id="loader">
-				         <i class="fa fa-refresh fa-spin fa-3x"></i>
-				         <h3 class="mt-2">Loading...</h3>
+				         <i class="fa fa-refresh fa-spin fa-3x text-white"></i>
+				         <h3 class="mt-2 text-white">Loading...</h3>
 				   </div>
 				   
 				   <div class="container-fluid" id="post-container">
@@ -270,10 +270,11 @@
 				       </div>
 				
 				       <div class="form-group">
-				           <input type="text" class="form-control" placeholder="Enter Title" name="post_title">
+				           <input type="text" class="form-control" placeholder="Enter Title" name="post_title" required>
 				       </div>
 				       <div class="form-group">
-				           <textarea class="form-control" rows="6" cols="10" placeholder="Start Writing..." name="post_content"></textarea>
+				           <textarea id="pc" class="form-control" rows="6" cols="10" placeholder="Start Writing...(minimum 20 characters)" name="post_content" required></textarea>
+				           <div id="show_error"></div>
 				       </div>
 				       <div class="form-group">
 				           <textarea class="form-control" rows="4" cols="10" placeholder="Write Code (if any)" name="post_code"></textarea>
@@ -308,6 +309,21 @@
 		crossorigin="anonymous"></script>
 	<script src="js/myjs.js" type="text/javascript"></script>
 	<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>	
+	
+	<script>
+	
+	     $(document).ready(function(){
+	    	 $('#post-btn').click(function(){
+	    		 var content = $('#pc').val();
+	    		 if(content.length < 20){
+	    			 $('#show_error').html('** The Content must be atleast 20 Characters long!');
+	    			 $('#show_error').css('color','red');
+	    			 return false;
+	    		 }
+	    	 });
+	     });
+	
+	</script>
 	
 	<script>
 	

@@ -36,8 +36,16 @@
 	            <h1>Welcome to Programming Club</h1>
 	            <h3>College of Technology and Engineering Udaipur</h3>
 	            <p>Here, We will discuss everything related to Programming and Technology</p>
+	            <% 
+	                User use = (User)session.getAttribute("currentUser");
+	                if(use == null){
+	            %>
 	            <a href="register_page.jsp" class="btn btn-md btn-outline-light m-1"><span class="fa fa-lightbulb-o"></span>&nbsp;Start Learning</a>
 	            <a href="login_page.jsp" class="btn btn-md btn-outline-light m-1"><span class="fa fa-paper-plane-o"></span>&nbsp;Login</a>
+	            <% }else{ %>
+	                  <a href="profile.jsp" class="btn btn-md btn-outline-light m-1"><span class="fa fa-lightbulb-o"></span>&nbsp;All Posts</a>
+	                  <a href="my_posts.jsp" class="btn btn-md btn-outline-light m-1"><span class="fa fa-paper-plane-o"></span>&nbsp;My Posts</a>
+	            <% } %>
 	            <a href="#" class="btn btn-md btn-outline-light m-1"><span class="fa fa-camera"></span>&nbsp;Gallery</a>
 	        </div>
 	    </div>
